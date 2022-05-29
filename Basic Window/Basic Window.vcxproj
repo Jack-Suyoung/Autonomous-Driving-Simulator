@@ -142,7 +142,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Basic window.cpp" />
+    <ClCompile Include="BasicWindow.cpp" />
+    <ClCompile Include="SimulatorMain.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="BasicWindow.h" />
+    <ClInclude Include="BasicWindowExport.h" />
+    <ClInclude Include="SimulatorMain.h" />
+    <ClInclude Include="SimulatorMainExport.h" />
+    <ClInclude Include="types.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

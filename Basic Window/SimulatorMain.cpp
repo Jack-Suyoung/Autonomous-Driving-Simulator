@@ -1,7 +1,9 @@
+#include <Windows.h>
 #include "types.h"
 
 #include "SimulatorMain.h"
-#include "SimulatorMainExport.h"
+
+#include "BasicWindowExport.h"
 
 
 int main()
@@ -11,8 +13,10 @@ int main()
 	int32_t s32cnt = 0;
 	do {
 
+		ViewreMain();
+
 		s32cnt++;
-	} while (s32cnt < 1000);
+	} while (s32cnt < 1000000);
 
 	return s8RetVal;
 }

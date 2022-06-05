@@ -1,3 +1,3 @@
 #pragma once
 
-extern int ViewreMain(void);
+extern int DrawWindowMain(void);

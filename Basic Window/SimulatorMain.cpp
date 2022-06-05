@@ -13,7 +13,7 @@ int main()
 	int32_t s32cnt = 0;
 	do {
 
-		ViewreMain();
+		DrawWindowMain();
 
 		s32cnt++;
 	} while (s32cnt < 1000000);

@@ -143,11 +143,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BasicWindow.cpp" />
+    <ClCompile Include="ManageRoad.cpp" />
     <ClCompile Include="SimulatorMain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BasicWindow.h" />
     <ClInclude Include="BasicWindowExport.h" />
+    <ClInclude Include="ManageRoad.h" />
+    <ClInclude Include="ManageRoadExport.h" />
     <ClInclude Include="SimulatorMain.h" />
     <ClInclude Include="SimulatorMainExport.h" />
     <ClInclude Include="types.h" />

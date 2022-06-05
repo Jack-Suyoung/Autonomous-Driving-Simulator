@@ -17,3 +17,9 @@ typedef double float64_t;
 
 typedef float float32_t;
 typedef double float64_t;
+
+typedef struct tf64POINT2D
+{
+	float64_t f64X;
+	float64_t f64Y;
+}f64POINT2D_t;

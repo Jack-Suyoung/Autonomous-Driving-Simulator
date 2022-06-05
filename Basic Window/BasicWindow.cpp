@@ -17,15 +17,19 @@
 GLFWwindow* gstWindow;
 GLfloat MousePosX;
 GLfloat MousePosY;
-RectButton stFileButton = { 0 };
-RectButton stQuitButton = { 0 };
+SystemButton stFileButton = { 0 };
+SystemButton stQuitButton = { 0 };
+ActiveButton stRoadButton = { 0 };
+ActiveButton stStraightLaneButton = { 0 };
+ActiveButton stCurvatureLaneButton = { 0 };
 
 int8_t DrawWindowMain(void);
 static void cursorPositionCallback(GLFWwindow* pstWindow, double xPos, double yPos);
 static void cursorEnterCallback(GLFWwindow* pstWindow, int entered);
 static void mouseButtonCallback(GLFWwindow* pstWindow, int button, int action, int mods);
 static void scrollCallback(GLFWwindow* pstWindow, double xOffset, double yOffset);
-static int8_t MouseIsInRectButton(RectButton* pstButtonSrc);
+static int8_t MouseIsInSystemButton(SystemButton* pstButtonSrc);
+static int8_t MouseIsInActiveButton(ActiveButton* pstButtonSrc);
 static void ConvertDeviceXYtoOpenGLXY();
 
 
@@ -100,20 +104,28 @@ int8_t DrawWindowMain(void)
 		//			Initialize Button		  //
 		////////////////////////////////////////
 		stFileButton.f32xPos = 10.0f;
-		stFileButton.f32yPos = 700.0f;
+		stFileButton.f32yPos = 680.0f;
 		stFileButton.f32Width = 80.0f;
 		stFileButton.f32Height = 40.0f;
 		strcpy_s(stFileButton.arch32Name, "File");
 		stFileButton.Initialize();
 
 		stQuitButton.f32xPos = 900.0f;
-		stQuitButton.f32yPos = 700.0f;
+		stQuitButton.f32yPos = 680.0f;
 		stQuitButton.f32Width = 80.0f;
 		stQuitButton.f32Height = 40.0f;
 		strcpy_s(stQuitButton.arch32Name, "Quit");
 		stQuitButton.Initialize();
 
+		stRoadButton.f32xPos = 110.0f;
+		stRoadButton.f32yPos = 680.0f;
+		stRoadButton.f32Width = 80.0f;
+		stRoadButton.f32Height = 40.0f;
+		strcpy_s(stRoadButton.arch32Name, "Road");
+		stRoadButton.Initialize();
 
+		stStraightLaneButton.Initialize();
+		stCurvatureLaneButton.Initialize();
 	}
 	else
 	{
@@ -128,6 +140,32 @@ int8_t DrawWindowMain(void)
 	stFileButton.DrawButton();
 	stQuitButton.DrawButton();
 
+	stRoadButton.DrawButton();
+	
+	if (stRoadButton.s8PressedState == 1)
+	{
+		stStraightLaneButton.f32Width = 40.0f;
+		stStraightLaneButton.f32Height = 40.0f;
+		stStraightLaneButton.f32xPos = stRoadButton.f32xPos + stRoadButton.f32Width + 10.0f;
+		stStraightLaneButton.f32yPos = stRoadButton.f32yPos + (stRoadButton.f32Height/2.0f) + 5.0f;
+		strcpy_s(stStraightLaneButton.arch32Name, "StraightLane");
+
+		stStraightLaneButton.DrawButton();
+
+
+		stCurvatureLaneButton.f32Width = 40.0f;
+		stCurvatureLaneButton.f32Height = 40.0f;
+		stCurvatureLaneButton.f32xPos = stRoadButton.f32xPos + stRoadButton.f32Width + 10.0f;
+		stCurvatureLaneButton.f32yPos = stRoadButton.f32yPos + (stRoadButton.f32Height / 2.0f) - 5.0f 
+			- stCurvatureLaneButton.f32Height;
+		strcpy_s(stCurvatureLaneButton.arch32Name, "CurvatureLane");
+
+		stCurvatureLaneButton.DrawButton();
+	}
+	else
+	{
+		// Do Nothing
+	}
 
 	glfwSwapBuffers(gstWindow);
 	glfwPollEvents();
@@ -175,8 +213,12 @@ void mouseButtonCallback(GLFWwindow* pstWindow, int button, int action, int mods
 	{
 		std::cout << "Right button press" << std::endl;
 
-		MouseIsInRectButton(&stFileButton);
-		MouseIsInRectButton(&stQuitButton);
+		MouseIsInSystemButton(&stFileButton);
+		MouseIsInSystemButton(&stQuitButton);
+		MouseIsInActiveButton(&stRoadButton);
+
+		MouseIsInActiveButton(&stStraightLaneButton);
+		MouseIsInActiveButton(&stCurvatureLaneButton);
 	}
 	else
 	{
@@ -189,7 +231,27 @@ void scrollCallback(GLFWwindow* pstWindow, double xOffset, double yOffset)
 	std::cout << xOffset << " : " << yOffset << std::endl;
 }
 
-int8_t MouseIsInRectButton(RectButton* pstButtonSrc)
+int8_t MouseIsInSystemButton(SystemButton* pstButtonSrc)
+{
+	int8_t s8RetVal = 0;
+
+	if ((MousePosX > pstButtonSrc->f32xPos)
+		&& (MousePosX < (pstButtonSrc->f32xPos + pstButtonSrc->f32Width))
+		&& (MousePosY > pstButtonSrc->f32yPos)
+		&& (MousePosY < (pstButtonSrc->f32yPos + pstButtonSrc->f32Height)))
+	{
+		(*pstButtonSrc).UpdateState();
+
+	}
+	else
+	{
+		// Do Nothing
+	}
+
+	return s8RetVal;
+}
+
+int8_t MouseIsInActiveButton(ActiveButton* pstButtonSrc)
 {
 	int8_t s8RetVal = 0;
 

@@ -4,6 +4,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <string.h>
+#include <Windows.h>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -174,6 +175,9 @@ int8_t DrawWindowMain(void)
 	if ((stQuitButton.s8PressedState == 1)
 		||(glfwGetKey(gstWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS))
 	{
+		printf("\n Terminating Window ..... \n");
+		Sleep(1500);
+
 		glfwTerminate();
 		s8TerminateWindow = 1;
 	}

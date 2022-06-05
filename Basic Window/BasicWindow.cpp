@@ -18,8 +18,9 @@ GLFWwindow* gstWindow;
 GLfloat MousePosX;
 GLfloat MousePosY;
 RectButton stFileButton = { 0 };
+RectButton stQuitButton = { 0 };
 
-int DrawWindowMain(void);
+int8_t DrawWindowMain(void);
 static void cursorPositionCallback(GLFWwindow* pstWindow, double xPos, double yPos);
 static void cursorEnterCallback(GLFWwindow* pstWindow, int entered);
 static void mouseButtonCallback(GLFWwindow* pstWindow, int button, int action, int mods);
@@ -28,8 +29,12 @@ static int8_t MouseIsInRectButton(RectButton* pstButtonSrc);
 static void ConvertDeviceXYtoOpenGLXY();
 
 
-int DrawWindowMain(void)
+int8_t DrawWindowMain(void)
 {
+
+	int8_t s8TerminateWindow = 0;
+
+
 	if (gstWindow == NULL)
 	{
 		// GLFW Init
@@ -98,8 +103,15 @@ int DrawWindowMain(void)
 		stFileButton.f32yPos = 700.0f;
 		stFileButton.f32Width = 80.0f;
 		stFileButton.f32Height = 40.0f;
-		strcpy_s(stFileButton.arch32Name, "file");
+		strcpy_s(stFileButton.arch32Name, "File");
 		stFileButton.Initialize();
+
+		stQuitButton.f32xPos = 900.0f;
+		stQuitButton.f32yPos = 700.0f;
+		stQuitButton.f32Width = 80.0f;
+		stQuitButton.f32Height = 40.0f;
+		strcpy_s(stQuitButton.arch32Name, "Quit");
+		stQuitButton.Initialize();
 
 
 	}
@@ -114,14 +126,25 @@ int DrawWindowMain(void)
 
 
 	stFileButton.DrawButton();
+	stQuitButton.DrawButton();
 
 
 	glfwSwapBuffers(gstWindow);
 	glfwPollEvents();
 
 
+	if ((stQuitButton.s8PressedState == 1)
+		||(glfwGetKey(gstWindow, GLFW_KEY_ESCAPE) == GLFW_PRESS))
+	{
+		glfwTerminate();
+		s8TerminateWindow = 1;
+	}
+	else
+	{
+		// Do Nothing
+	}
 
-	return 0;
+	return (s8TerminateWindow);
 }
 
 static void cursorPositionCallback(GLFWwindow* pstWindow, float64_t xPos, float64_t yPos)
@@ -153,6 +176,7 @@ void mouseButtonCallback(GLFWwindow* pstWindow, int button, int action, int mods
 		std::cout << "Right button press" << std::endl;
 
 		MouseIsInRectButton(&stFileButton);
+		MouseIsInRectButton(&stQuitButton);
 	}
 	else
 	{

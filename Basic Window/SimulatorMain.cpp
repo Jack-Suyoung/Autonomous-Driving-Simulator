@@ -9,14 +9,15 @@
 int main()
 {
 	int8_t s8RetVal = 0;
+	int8_t s8WindowQuitBtn = 0;
 
 	int32_t s32cnt = 0;
 	do {
 
-		DrawWindowMain();
+		s8WindowQuitBtn = DrawWindowMain();
 
-		s32cnt++;
-	} while (s32cnt < 1000000);
+
+	} while (s8WindowQuitBtn != 1);
 
 	return s8RetVal;
 }
